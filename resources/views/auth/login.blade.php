@@ -2,7 +2,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" id="formLogin" onsubmit="submitForm()">
         @csrf
 
         <!-- Email Address -->
@@ -20,6 +20,7 @@
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
+        
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -32,7 +33,15 @@
             </label>
         </div>
 
-        <div class="flex justify-center items-center">
+        <div class="flex item-center justify-center mt-4">
+            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+        </div>
+
+        <div class="flex justify-center mt-2">
+            <x-input-error :messages="$errors->get('g-recaptcha-response')"/>
+        </div>
+
+        <div class="flex justify-center items-center mt-4">
             <x-primary-button class="ml-3">
                 {{ __('Log in') }}
             </x-primary-button>
